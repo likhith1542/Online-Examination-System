@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "../Styles/Test.css";
 import DOMPurify from "dompurify";
 import axios from "axios";
 import Answer from "./Answer";
 import "../Styles/Test.css";
+import moment from "moment";
 
 // var elem = document.documentElement;
 function Test() {
   let { id } = useParams();
+  let navi = useNavigate();
 
   const [questions, setQuestions] = useState([]);
   const [index, setIndex] = useState(0);
@@ -18,7 +20,26 @@ function Test() {
       .get("http://localhost:5000/api/tests/get/" + id)
       .then((res) => {
         console.log(res.data);
-        setQuestions(res.data);
+
+        axios
+          .get("http://localhost:5000/api/tests/test/get/" + res.data[0].examId)
+          .then((res2) => {
+            let a =
+              moment().diff(res2.data[0].examDate, "minutes") <
+              res2.data[0].duration;
+            let b =
+              moment().diff(res2.data[0].examDate, "minutes") >
+              -1 * res2.data[0].duration;
+
+            if (a === true && b === true) {
+              setQuestions(res.data);
+            } else {
+              navi("/");
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => {
         console.log(err);
@@ -67,7 +88,6 @@ function Test() {
                     setIndex(index - 1);
                   }
                 }}
-                
               >
                 Submit Exam
               </button>

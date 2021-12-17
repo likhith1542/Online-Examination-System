@@ -1,5 +1,4 @@
 .navbar{
-    width: calc(100% - 20px);
     height: 50px;
     background-color: brown;
     padding: 10px;
@@ -21,11 +20,12 @@
 .navbaruser{
     display: flex;
     align-items: center;
-    width: 10%;
+    /* width: 10%; */
     justify-content: space-between;
 }
 
 .navbaruser button{
     background-color: white !important;
     color: brown !important;
+    margin-left: 1rem;
 }

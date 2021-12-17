@@ -67,6 +67,14 @@ router.get("/get/:id", (req, res) => {
   });
 });
 
+router.get("/test/get/:id", (req, res) => {
+  let myquery = { _id: req.params.id };
+  Test.find(myquery, function (err, result) {
+    if (err) throw err;
+    res.json(result);
+  });
+});
+
 
 router.get("/get",(req,res)=>{
   Test.find({},function(err,result){
