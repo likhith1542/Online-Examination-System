@@ -23,14 +23,20 @@ const Login = (props) => {
     if (props.errors) {
       setErrors(props.errors);
     }
-  }, [props.errors,props.auth]);
+  },
+  // eslint-disable-next-line
+  [props.errors,props.auth]);
 
   useEffect(() => {
     setErrors({})
     if (props.auth.isAuthenticated) {
+
       navigate("/");
     }
-  }, []);
+    
+  },
+  // eslint-disable-next-line
+  [props.auth.isAuthenticated]);
 
   const submitlogin = (e) => {
     e.preventDefault();

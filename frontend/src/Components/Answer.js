@@ -1,42 +1,96 @@
-import React,{useState,useEffect} from "react";
-import { MdOutlineDeleteForever } from "react-icons/md";
-import { GrView } from "react-icons/gr";
+import React, { useState, useEffect } from "react";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import { AiFillCaretRight, AiFillCaretLeft } from "react-icons/ai";
 import "../Styles/Test.css";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import store from "../store";
+function Answer({ questionid }) {
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const [file, setFile] = useState([]);
+  const [displayImages, setDisplayImages] = useState([]);
+  const [open, setOpen] = React.useState(false);
+  const [index, setIndex] = useState(0);
+  const [success, setSuccess] = useState(null);
+  const [fetched, setFetched] = useState(null);
 
-function Answer({id}) {
+  const { id } = useParams();
 
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-    const [file, setFile] = useState([]);
-    const [open, setOpen] = React.useState(false);
-    const [index, setIndex] = useState(0);
-    
   function uploadSingleFile(e) {
+    // setFile(file,[])
+    // setDisplayImages(displayImages,[])
+    console.log(displayImages);
     let ImagesArray = Object.entries(e.target.files).map((e) =>
       URL.createObjectURL(e[1])
     );
     console.log(ImagesArray);
-    setFile([...file, ...ImagesArray]);
-    console.log("file", file);
+    setSuccess(null);
+    setFetched(false);
+    setDisplayImages(ImagesArray);
+    setFile(e.target.files);
+    console.log(displayImages);
   }
 
   function upload(e) {
     e.preventDefault();
-    console.log(file);
+    const formData = new FormData();
+
+    for (let index = 0; index < file.length; index++) {
+      formData.append("files", file[index]);
+    }
+
+    axios
+      .post(
+        "http://localhost:5000/api/tests/upload/" +
+          id +
+          "/" +
+          questionid +
+          "/" +
+          store.getState().auth.user.id,
+        formData
+      )
+      .then((res) => {
+        console.log(res);
+        setSuccess(res.data.msg);
+        setFetched(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        setSuccess(false);
+      });
   }
 
-  function deleteFile(e) {
-    const s = file.filter((item, index) => index !== e);
-    setFile(s);
-    console.log(s);
-  }
+  // function deleteFile(e) {
+  //   const s = file.filter((item, index) => index !== e);
+  //   setFile(s);
+  //   console.log(s);
+  // }
 
   useEffect(() => {
-      setFile([])
-  }, [id])
+    setFile([]);
+    setDisplayImages([]);
+    setSuccess(null);
+    setIndex(0)
+
+    axios
+      .get(
+        "http://localhost:5000/api/tests/get/" +
+          id +
+          "/" +
+          questionid +
+          "/" +
+          store.getState().auth.user.id
+      )
+      .then((res) => {
+        setDisplayImages(res.data[0].AnswerUrls);
+        setFetched(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [id,questionid]);
   return (
     <div>
       <div className="uploadans">
@@ -47,7 +101,14 @@ function Answer({id}) {
           hidden
           onChange={uploadSingleFile}
         ></input>
-        <label for="ansbtn">Choose Files for {id}</label>
+        <label for="ansbtn">Choose Files</label>
+        <button
+          onClick={(e) => {
+            upload(e);
+          }}
+        >
+          Upload
+        </button>
       </div>
       <div className="preview">
         <Modal
@@ -68,11 +129,11 @@ function Answer({id}) {
               >
                 <AiFillCaretLeft size={25} color="white" />
               </button>
-              <img src={file[index]} width="80%" />
+              <img alt={index} src={displayImages[index]} width="80%" height='100%' />
               <button
                 onClick={(e) => {
                   e.preventDefault();
-                  if (index + 1 < file.length) {
+                  if (index + 1 < displayImages.length) {
                     setIndex(index + 1);
                     console.log(index);
                   }
@@ -96,8 +157,31 @@ function Answer({id}) {
 
       <div>
         <div className="form-group preview">
-          {file.length > 0 &&
-            file.map((item, index) => {
+          {displayImages.length > 0 ? (
+            fetched ? (
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleOpen();
+                }}
+              >
+                View Submission
+              </button>
+            ) : (
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleOpen();
+                }}
+              >
+                View Before Upload
+              </button>
+            )
+          ) : (
+            <></>
+          )}
+          {/* {displayImages.length > 0 &&
+            displayImages.map((item, index) => {
               return (
                 <div className="ansdiv" key={item}>
                   <img className="ansimage" src={item} alt="" />
@@ -110,16 +194,22 @@ function Answer({id}) {
                         handleOpen();
                       }}
                     />
-                    <MdOutlineDeleteForever
+                    
+                    {!fetched?<MdOutlineDeleteForever
                       color="red"
                       size={25}
                       onClick={() => deleteFile(index)}
-                    />
+                    />:<></>}
                   </div>
                 </div>
               );
-            })}
+            })} */}
         </div>
+        <h3 style={{ textAlign: "center" }}>
+          {success !== false
+            ? success
+            : "Something Went Wrong Try Again or contact faculty"}
+        </h3>
       </div>
     </div>
   );

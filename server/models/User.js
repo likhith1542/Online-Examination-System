@@ -6,6 +6,10 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
+  isFaculty:{
+    type:Boolean,
+    default:false
+  },
   email: {
     type: String,
     required: true

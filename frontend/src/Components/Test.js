@@ -23,7 +23,7 @@ function Test() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [id]);
 
   //   const [fullscreen, setFullscreen] = useState(false);
 
@@ -67,17 +67,30 @@ function Test() {
                     setIndex(index - 1);
                   }
                 }}
-
-                style={{backgroundColor:index===0?'rgba(165, 42, 42,.5)':'rgb(165, 42, 42)'}}
+                
               >
-                Prev
+                Submit Exam
               </button>
             </div>
             <div>
               <div>Marks: {questions[index].marks}</div>
-              <div>Status: Not Submitted</div>
+              {/* <div>Status: Not Submitted</div> */}
             </div>
             <div>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (index - 1 >= 0) {
+                    setIndex(index - 1);
+                  }
+                }}
+                style={{
+                  backgroundColor:
+                    index === 0 ? "rgba(165, 42, 42,.5)" : "rgb(165, 42, 42)",
+                }}
+              >
+                Prev
+              </button>
               <button
                 onClick={(e) => {
                   e.preventDefault();
@@ -86,8 +99,12 @@ function Test() {
                     console.log(index);
                   }
                 }}
-
-                style={{backgroundColor:index===questions.length-1?'rgba(165, 42, 42,.5)':'rgb(165, 42, 42)'}}
+                style={{
+                  backgroundColor:
+                    index === questions.length - 1
+                      ? "rgba(165, 42, 42,.5)"
+                      : "rgb(165, 42, 42)",
+                }}
               >
                 Next
               </button>
@@ -97,10 +114,12 @@ function Test() {
           <div
             className="Question"
             dangerouslySetInnerHTML={{
-              __html: DOMPurify.sanitize((index+1)+". "+questions[index].question),
+              __html: DOMPurify.sanitize(
+                index + 1 + ". " + questions[index].question
+              ),
             }}
           ></div>
-          <Answer id={questions[index]._id}/>
+          <Answer questionid={questions[index]._id} />
         </div>
       ) : (
         <div>Loading...</div>

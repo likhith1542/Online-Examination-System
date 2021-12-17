@@ -39,6 +39,10 @@ router.post("/create", (req, res) => {
     examDate: new Date(req.body.examdate),
     courseName: req.body.coursename,
     examName: req.body.examname,
+    duration:req.body.duration,
+    status:req.body.status,
+    faculty:req.body.faculty,
+    students:req.body.students
   });
 
   newTest
@@ -62,6 +66,14 @@ router.get("/get/:id", (req, res) => {
     res.json(result);
   });
 });
+
+
+router.get("/get",(req,res)=>{
+  Test.find({},function(err,result){
+    if(err) throw err;
+    res.json(result);
+  })
+})
 
 // @route POST api/tests/upload/:testid/:questionid/:userid
 // @desc POST Answers Image
@@ -89,6 +101,10 @@ router.post(
   "/upload/:testid/:questionid/:userid",
   upload.array("files"),
   function (req, res, next) {
+
+    if(req.files.length<=0){
+      return res.status(400).send({err:"Something Went Wrong"})
+    }
     var returnfiles = req.files;
     var returnurls = [];
     for (let i = 0; i < returnfiles.length; i++) {
@@ -97,22 +113,65 @@ router.post(
 
     console.log(returnurls);
 
-    const newAnswer = new Answer({
+    // const newAnswer = new Answer({
+    //   TestId: req.params.testid.trim(),
+    //   QuestionId: req.params.questionid.trim(),
+    //   UserId: req.params.userid.trim(),
+    //   AnswerUrls: returnurls,
+    // });
+
+
+    Answer.findOneAndUpdate({
+      TestId: req.params.testid.trim(),
+      QuestionId: req.params.questionid.trim(),
+      UserId: req.params.userid.trim(),
+    },{
       TestId: req.params.testid.trim(),
       QuestionId: req.params.questionid.trim(),
       UserId: req.params.userid.trim(),
       AnswerUrls: returnurls,
-    });
+    },{
+      new:true,
+      upsert:true
+    }).then((retanswer)=>{
+      console.log(retanswer);
+    }).catch((err)=>{
+      console.log(err);
+    })
 
-    newAnswer
-      .save()
-      .then((test) => res.send(test))
-      .catch((err) => console.log(err));
+    // const newAnswer = new Answer({
+    //   TestId: req.params.testid.trim(),
+    //   QuestionId: req.params.questionid.trim(),
+    //   UserId: req.params.userid.trim(),
+    //   AnswerUrls: returnurls,
+    // });
+
+
+
+    // newAnswer
+    //   .save()
+    //   .then((test) => {return res.send(test)})
+    //   .catch((err) => console.log(err));
 
     res.send({
       msg: "Successfully uploaded " + req.files.length + " files!",
     });
   }
 );
+
+
+// @route GET api/tests/get/:testid/:questionid/:userid
+// @desc GET Answers Image
+// @access public
+
+router.get("/get/:testid/:questionid/:userid", (req, res) => {
+  let myquery = { TestId: req.params.testid,QuestionId:req.params.questionid,UserId:req.params.userid };
+  console.log(myquery);
+  Answer.find(myquery, function (err, result) {
+    if (err) throw err;
+    res.json(result);
+  });
+});
+
 
 module.exports = router;
