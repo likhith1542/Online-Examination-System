@@ -41,5 +41,8 @@ const TestSchema = new Schema({
   students: {
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
+  submittedBy: {
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  },
 });
 module.exports = Test = mongoose.model("Tests", TestSchema);

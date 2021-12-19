@@ -95,3 +95,11 @@
 .navigator button{
   margin:1rem;
 }
+
+.centered{
+  width: 100%;
+  height: calc(95vh - 50px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

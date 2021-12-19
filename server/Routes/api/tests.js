@@ -55,6 +55,14 @@ router.post("/create", (req, res) => {
 // @access admin
 router.post("/edit/:id", (req, res) => {});
 
+router.post("/submit/:id/:userid",(req,res)=>{
+  let myquery = { _id: req.params.id };
+  Test.findOneAndUpdate(myquery,{$push:{"submittedBy":req.params.userid}},function (err,result){
+    if(err) throw err;
+    res.json(result);
+  })
+})
+
 // @route GET api/tests/get/:id
 // @desc get Question
 // @access public

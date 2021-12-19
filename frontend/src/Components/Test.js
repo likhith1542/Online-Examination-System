@@ -6,11 +6,13 @@ import axios from "axios";
 import Answer from "./Answer";
 import "../Styles/Test.css";
 import moment from "moment";
+import store from "./../store";
 
 // var elem = document.documentElement;
 function Test() {
   let { id } = useParams();
   let navi = useNavigate();
+  let userid = store.getState().auth.user.id;
 
   const [questions, setQuestions] = useState([]);
   const [index, setIndex] = useState(0);
@@ -24,12 +26,18 @@ function Test() {
         axios
           .get("http://localhost:5000/api/tests/test/get/" + res.data[0].examId)
           .then((res2) => {
+
+            if(res2.data[0].submittedBy.includes(userid)){
+              navi('/')
+            }
+
             let a =
               moment().diff(res2.data[0].examDate, "minutes") <
               res2.data[0].duration;
             let b =
               moment().diff(res2.data[0].examDate, "minutes") >
               -1 * res2.data[0].duration;
+
 
             if (a === true && b === true) {
               setQuestions(res.data);
@@ -44,7 +52,22 @@ function Test() {
       .catch((err) => {
         console.log(err);
       });
-  }, [id]);
+  }, 
+  // eslint-disable-next-line
+  [id]);
+
+  const submitExam = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:5000/api/tests/submit/" + id + "/" + userid)
+      .then((res) => {
+        console.log(res);
+        navi("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   //   const [fullscreen, setFullscreen] = useState(false);
 
@@ -75,6 +98,10 @@ function Test() {
   //     document.addEventListener("fullscreenchange", checkFullScreen());
   //   }, []);
 
+  useEffect(()=>{
+
+  },[])
+
   return (
     <div className="test">
       {questions.length > 0 ? (
@@ -83,10 +110,7 @@ function Test() {
             <div>
               <button
                 onClick={(e) => {
-                  e.preventDefault();
-                  if (index - 1 >= 0) {
-                    setIndex(index - 1);
-                  }
+                  submitExam(e);
                 }}
               >
                 Submit Exam
