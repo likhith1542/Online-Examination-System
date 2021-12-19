@@ -6,7 +6,7 @@ import "../Styles/Test.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import store from "../store";
-function Answer({ questionid }) {
+function Answer({ questionid, showuploads }) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [file, setFile] = useState([]);
@@ -72,7 +72,7 @@ function Answer({ questionid }) {
     setFile([]);
     setDisplayImages([]);
     setSuccess(null);
-    setIndex(0)
+    setIndex(0);
 
     axios
       .get(
@@ -90,26 +90,30 @@ function Answer({ questionid }) {
       .catch((err) => {
         console.log(err);
       });
-  }, [id,questionid]);
+  }, [id, questionid]);
   return (
     <div>
-      <div className="uploadans">
-        <input
-          type="file"
-          id="ansbtn"
-          multiple
-          hidden
-          onChange={uploadSingleFile}
-        ></input>
-        <label for="ansbtn">Choose Files</label>
-        <button
-          onClick={(e) => {
-            upload(e);
-          }}
-        >
-          Upload
-        </button>
-      </div>
+      {showuploads ? (
+        <div className="uploadans">
+          <input
+            type="file"
+            id="ansbtn"
+            multiple
+            hidden
+            onChange={uploadSingleFile}
+          ></input>
+          <label for="ansbtn">Choose Files</label>
+          <button
+            onClick={(e) => {
+              upload(e);
+            }}
+          >
+            Upload
+          </button>
+        </div>
+      ) : (
+        <></>
+      )}
       <div className="preview">
         <Modal
           open={open}
@@ -129,7 +133,12 @@ function Answer({ questionid }) {
               >
                 <AiFillCaretLeft size={25} color="white" />
               </button>
-              <img alt={index} src={displayImages[index]} width="80%" height='100%' />
+              <img
+                alt={index}
+                src={displayImages[index]}
+                width="80%"
+                height="100%"
+              />
               <button
                 onClick={(e) => {
                   e.preventDefault();
@@ -160,6 +169,8 @@ function Answer({ questionid }) {
           {displayImages.length > 0 ? (
             fetched ? (
               <button
+
+              style={{marginTop:'25px'}}
                 onClick={(e) => {
                   e.preventDefault();
                   handleOpen();

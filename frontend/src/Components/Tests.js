@@ -12,10 +12,12 @@ function Tests() {
   const open_exam_color = "#56fbb5";
 
   const [tests, setTests] = useState([]);
+  const [marks, setMarks] = useState([]);
+
   let userid = store.getState().auth.user.id;
 
-  useEffect(() => {
-    axios
+  useEffect(async () => {
+    await axios
       .get("http://localhost:5000/api/tests/get")
       .then((res) => {
         setTests(res.data);
@@ -23,7 +25,26 @@ function Tests() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, 
+  // eslint-disable-next-line
+  []);
+
+  useEffect(() => {
+    tests.map((test, i) => {
+      axios
+        .get(
+          "http://localhost:5000/api/marks/get/marks/" + test._id + "/" + userid
+        )
+        .then((res) => {
+          setMarks((marks) => [...marks, res.data.tm]);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    });
+  }, 
+  // eslint-disable-next-line
+  [tests]);
 
   return (
     <div className="tests">
@@ -56,7 +77,7 @@ function Tests() {
                       .add(test.duration, "minutes")
                       .diff(moment(), "minutes") -
                       15 >
-                    0 && !test.submittedBy.includes(userid) ? (
+                      0 && !test.submittedBy.includes(userid) ? (
                       moment(test.examDate).diff(moment(), "minutes") - 15 >
                       0 ? (
                         <div>
@@ -107,7 +128,8 @@ function Tests() {
                       test.duration &&
                     moment(test.examDate)
                       .add(test.duration, "minutes")
-                      .diff(moment(), "minutes") > 0 && !test.submittedBy.includes(userid) ? (
+                      .diff(moment(), "minutes") > 0 &&
+                    !test.submittedBy.includes(userid) ? (
                       <div>
                         <Link to={"/test/" + test._id}>
                           <div>
@@ -144,7 +166,40 @@ function Tests() {
                       <></>
                     )}
                   </td>
-                  <td>50/50</td>
+                  <td>
+                    {moment(test.examDate)
+                      .add(test.duration, "minutes")
+                      .diff(moment(), "minutes") -
+                      15 >
+                      0 && !test.submittedBy.includes(userid) ? (
+                      "-"
+                    ) : (
+                      <div>
+                        <p>
+                          {marks[i]}/{test.marks}
+                        </p>
+                        {test.submittedBy.includes(userid) ? (
+                          <Link to={"/answer/" + test._id}>
+                            <div>
+                              <span
+                                style={{
+                                  backgroundColor: complete_color,
+                                  padding: "5px 10px",
+                                  borderRadius: "8px",
+                                  color: "white",
+                                  margin: "",
+                                }}
+                              >
+                                View
+                              </span>
+                            </div>
+                          </Link>
+                        ) : (
+                          <></>
+                        )}
+                      </div>
+                    )}
+                  </td>
                 </tr>
               );
             })}

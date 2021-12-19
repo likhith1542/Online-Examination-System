@@ -10,6 +10,7 @@ import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import PrivateRoute from "./Private/PrivateRoute";
+import AnswerSheet from './Components/AnswerSheet';
 
 if (localStorage.jwtToken) {
   // Set auth token header auth
@@ -45,10 +46,19 @@ function App() {
                 </PrivateRoute>
               }
             />
+
+            <Route
+              path="/answer/:id"
+              element={
+                <PrivateRoute>
+                  <AnswerSheet />
+                </PrivateRoute>
+              }
+            />
             <Route
               path="/"
               element={
-                <PrivateRoute  >
+                <PrivateRoute>
                   <Tests />
                 </PrivateRoute>
               }

@@ -8,83 +8,75 @@ import "../Styles/Test.css";
 import moment from "moment";
 import store from "./../store";
 
-// var elem = document.documentElement;
-function Test() {
+function AnswerSheet() {
   let { id } = useParams();
   let navi = useNavigate();
   let userid = store.getState().auth.user.id;
 
   const [questions, setQuestions] = useState([]);
   const [index, setIndex] = useState(0);
+  const [marks, setMarks] = useState(0);
+
+  useEffect(
+    () => {
+      axios
+        .get("http://localhost:5000/api/tests/get/" + id)
+        .then((res) => {
+
+          axios
+            .get(
+              "http://localhost:5000/api/tests/test/get/" + res.data[0].examId
+            )
+            .then((res2) => {
+              let a =
+                moment().diff(res2.data[0].examDate, "minutes") >
+                res2.data[0].duration;
+
+              if (a === true) {
+                setQuestions(res.data);
+              } else {
+                navi("/");
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    // eslint-disable-next-line
+    [id]
+  );
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/tests/get/" + id)
-      .then((res) => {
-        console.log(res.data);
-
-        axios
-          .get("http://localhost:5000/api/tests/test/get/" + res.data[0].examId)
-          .then((res2) => {
-
-            if(res2.data[0].submittedBy.includes(userid)){
-              navi('/')
-            }
-
-            let a =
-              moment().diff(res2.data[0].examDate, "minutes") <
-              res2.data[0].duration;
-            let b =
-              moment().diff(res2.data[0].examDate, "minutes") >
-              -1 * res2.data[0].duration;
-
-
-            if (a === true && b === true) {
-              setQuestions(res.data);
-            } else {
-              navi("/");
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, 
-  // eslint-disable-next-line
-  [id]);
-
-  const submitExam = (e) => {
-    e.preventDefault();
-    axios
-      .post("http://localhost:5000/api/tests/submit/" + id + "/" + userid)
-      .then((res) => {
-        console.log(res);
-        navi("/");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+    if (questions.length > 0) {
+      axios
+        .get(
+          "http://localhost:5000/api/marks/get/marks/" +
+            id +
+            "/" +
+            questions[index]._id +
+            "/" +
+            userid
+        )
+        .then((res) => {
+          setMarks(res.data[0].Mark);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [questions,index]);
 
   return (
     <div className="test">
-      {questions.length > 0 ? (
+      {questions.length > 0 && marks ? (
         <div className="testinner">
           <div className="navigator">
             <div>
-              <button
-                onClick={(e) => {
-                  submitExam(e);
-                }}
-              >
-                Submit Exam
-              </button>
-            </div>
-            <div>
-              <div>Marks: {questions[index].marks}</div>
+              <div>Marks: {marks}/{questions[index].marks}</div>
               {/* <div>Status: Not Submitted</div> */}
             </div>
             <div>
@@ -130,7 +122,7 @@ function Test() {
               ),
             }}
           ></div>
-          <Answer questionid={questions[index]._id} showuploads={true} />
+          <Answer questionid={questions[index]._id} showuploads={false} />
         </div>
       ) : (
         <div>Loading...</div>
@@ -139,4 +131,4 @@ function Test() {
   );
 }
 
-export default Test;
+export default AnswerSheet;
