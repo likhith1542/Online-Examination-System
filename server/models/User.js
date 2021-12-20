@@ -21,6 +21,10 @@ const UserSchema = new Schema({
   date: {
     type: Date,
     default: Date.now
+  },
+  regNo:{
+    type:String,
+    unique:true
   }
 });
 module.exports = User = mongoose.model("users", UserSchema);

@@ -24,7 +24,7 @@ router.post("/create", (req, res) => {
 
   if (
     req.body.marks.trim() === "" ||
-    req.body.examdate.trim() === "" ||
+    req.body.examdate === "" ||
     req.body.coursename.trim() === "" ||
     req.body.examname.trim() === ""
   ) {
@@ -36,7 +36,7 @@ router.post("/create", (req, res) => {
       ? req.body.instructions
       : "Read the Question carefully and answer",
     marks: req.body.marks,
-    examDate: new Date(req.body.examdate),
+    examDate: req.body.examdate,
     courseName: req.body.coursename,
     examName: req.body.examname,
     duration:req.body.duration,
@@ -53,7 +53,22 @@ router.post("/create", (req, res) => {
 // @route POST api/tests/edit/:id
 // @desc edit Test
 // @access admin
-router.post("/edit/:id", (req, res) => {});
+router.post("/edit/:id", (req, res) => {
+  let myquery = { _id: req.params.id };
+  let changes={
+    
+    marks: req.body.marks,
+    examDate: req.body.examdate,
+    courseName: req.body.coursename,
+    examName: req.body.examname,
+    duration:req.body.duration,
+  }
+  Test.findOneAndUpdate(myquery,changes,function (err,result){
+    console.log(result);
+    if(err) throw err;
+    res.json(result);
+  })
+});
 
 router.post("/submit/:id/:userid",(req,res)=>{
   let myquery = { _id: req.params.id };
@@ -184,6 +199,15 @@ router.get("/get/:testid/:questionid/:userid", (req, res) => {
   let myquery = { TestId: req.params.testid,QuestionId:req.params.questionid,UserId:req.params.userid };
   console.log(myquery);
   Answer.find(myquery, function (err, result) {
+    if (err) throw err;
+    res.json(result);
+  });
+});
+
+router.post("/addstudents/:testid", (req, res) => {
+  let myquery = { _id: req.params.testid };
+  console.log(req.body);
+  Test.findOneAndUpdate(myquery, {$set:{students:req.body.dbids}}, {new: true}, (err, result) =>{
     if (err) throw err;
     res.json(result);
   });

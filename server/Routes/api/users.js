@@ -26,7 +26,7 @@ router.post("/register", (req, res) => {
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
-        isFaculty:req.body.isFaculty?true:false
+        isFaculty: req.body.isFaculty ? true : false,
       });
       // Hash password before saving in database
       bcrypt.genSalt(10, (err, salt) => {
@@ -60,7 +60,7 @@ router.post("/login", (req, res) => {
   User.findOne({ email }).then((user) => {
     // Check if user exists
     if (!user) {
-      console.log('error');
+      console.log("error");
       return res.status(404).json({ emailnotfound: "Email not found" });
     }
     // Check password
@@ -95,4 +95,11 @@ router.post("/login", (req, res) => {
   });
 });
 
+router.get("/get/:id", (req, res) => {
+  User.findOne({ regNO: req.params.id }, function (err, result) {
+    if (err) throw err;
+    console.log(req.params.id+" "+result._id);
+    res.json(result._id);
+  });
+});
 module.exports = router;

@@ -1,0 +1,34 @@
+.navbar{
+    height: 50px;
+    background-color: brown;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    color: white;
+    justify-content: space-between;
+    position: fixed;
+    width: calc(100vw - 20px);
+    top: 0;
+}
+
+.navbar h1{
+    margin: 0 !important;
+}
+
+.navbar a{
+    text-decoration: none;
+    color: white;
+}
+
+.navbaruser{
+    display: flex;
+    align-items: center;
+    /* width: 10%; */
+    justify-content: space-between;
+}
+
+.navbaruser button{
+    background-color: white !important;
+    color: brown !important;
+    margin-left: 1rem;
+}
