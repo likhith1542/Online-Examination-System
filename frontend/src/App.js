@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./App.css";
 import Navbar from "./Components/Navbar";
 import Tests from "./Components/Tests";
 import Test from "./Components/Test";
@@ -11,6 +10,7 @@ import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import PrivateRoute from "./Private/PrivateRoute";
 import AnswerSheet from './Components/AnswerSheet';
+import VideoChat from './video/VideoChat';
 
 if (localStorage.jwtToken) {
   // Set auth token header auth
@@ -36,6 +36,7 @@ function App() {
       <div className="App">
         <BrowserRouter>
           <Navbar />
+        
           <Routes>
             <Route exact path="/login" element={<Login />} />
             <Route
