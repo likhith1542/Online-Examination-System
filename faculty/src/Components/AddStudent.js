@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 function AddStudent() {
   const [csvFile, setCsvFile] = useState();
@@ -26,16 +27,16 @@ function AddStudent() {
     setCsvArray(newArray);
   };
 
-  useEffect(async () => {
+  useEffect(() => {
     for (let i = 0; i < csvArray.length; i++) {
       if (csvArray[i].RegNo !== undefined) {
+        console.log(csvArray[i].RegNo);
         setRegns((rns) => [...rns, csvArray[i].RegNo]);
-        await axios
+        axios
           .get("http://localhost:5000/api/users/get/" + csvArray[i].RegNo)
           .then((res) => {
-            console.log(res.data);
-            if (res.data) {
-              setDbids((dbid) => [...dbid, res.data]);
+            if (res.data.ids) {
+              setDbids((dbid) => [...dbid, res.data.ids]);
             }
           })
           .catch((err) => {
@@ -51,8 +52,6 @@ function AddStudent() {
   //     }
   //   }, [regns]);
 
-  
-
   //   const getids = () => {
   //     axios
   //       .get("http://localhost:5000/api/users/get/61bcd291aa80cebe10149e4f")
@@ -64,10 +63,20 @@ function AddStudent() {
   //       });
   //   };
 
-  const submit=()=>{
-    let myquery={'dbids':dbids}
+  let { testid } = useParams();
+
+  const submit = () => {
+    let myquery = { dbids: dbids };
     console.log(myquery.dbids);
-  }
+
+    axios
+      .post("http://localhost:5000/api/tests/addstudents/" + testid, myquery)
+      .then((result)=>{
+        console.log(result);
+      }).catch((err)=>{
+        console.log(err);
+      })
+  };
 
   const upload = () => {
     const file = csvFile;
@@ -87,7 +96,7 @@ function AddStudent() {
         display: "flex",
         justifyContent: "center",
         height: "calc(100vh - 70px)",
-        alignItems:'center'
+        alignItems: "center",
       }}
     >
       <form id="csv-form">
@@ -101,7 +110,7 @@ function AddStudent() {
         ></input>
         <br />
         <button
-          style={{ marginTop: "25px",marginRight:"50px" }}
+          style={{ marginTop: "25px", marginRight: "50px" }}
           onClick={(e) => {
             e.preventDefault();
             if (csvFile) upload();
@@ -113,7 +122,7 @@ function AddStudent() {
           style={{ marginTop: "25px" }}
           onClick={(e) => {
             e.preventDefault();
-            if(csvFile) submit();
+            if (csvFile) submit();
           }}
         >
           Submit

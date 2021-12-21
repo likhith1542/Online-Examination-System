@@ -96,10 +96,20 @@ router.post("/login", (req, res) => {
 });
 
 router.get("/get/:id", (req, res) => {
-  User.findOne({ regNO: req.params.id }, function (err, result) {
-    if (err) throw err;
-    console.log(req.params.id+" "+result._id);
-    res.json(result._id);
-  });
+  
+  User.findOne({ regNo:req.params.id }).then((user) => {
+    if(user){
+      console.log(user.regNo);
+      return res.status(200).json({ids:user._id})
+    }else{
+      return res.status(200).json({err:'User Not Found'})
+    }
+  })
 });
+
+router.get('/get',(req,res)=>{
+  User.find({},{_id:1,regNo:1,name:1}).then((users)=>{
+    return res.json(users)
+  })
+})
 module.exports = router;

@@ -1,0 +1,66 @@
+.scripts {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 12.5px;
+}
+
+.showscript {
+  background-color: white;
+  border-radius: 8px;
+}
+
+.divcentered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.horizontalbox2 {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 90%;
+  padding: 12px;
+  overflow-y: scroll;
+}
+
+.holder {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 30%;
+  right: 10%;
+}
+
+.holderl {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 10%;
+  left: 10%;
+}
+
+.holder .marks {
+  border-radius: 50%;
+  width: 75px;
+  height: 75px;
+  font-size: 40px;
+  font-weight: bold;
+  text-align: center;
+  border: 1px solid grey;
+}
+
+.holderl .marks {
+    border-radius: 50%;
+    width: 75px;
+    height: 75px;
+    font-size: 40px;
+    font-weight: bold;
+    text-align: center;
+    border: 1px solid grey;
+  }
+  

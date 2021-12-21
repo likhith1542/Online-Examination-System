@@ -17,6 +17,10 @@ const AnswerSchema = new Schema({
     ref: "User",
     required: true,
   },
+  Corrected:{
+    type:Boolean,
+    default:false
+  },
   AnswerUrls:{
       type:[String],
       required:true

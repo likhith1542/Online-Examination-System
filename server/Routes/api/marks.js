@@ -4,6 +4,11 @@ const router = express.Router();
 const Mark = require("../../models/Mark");
 
 router.post("/mark/:testid/:questionid/:userid", (req, res) => {
+  console.log({
+    TestId: req.params.testid,
+    QuestionId: req.params.questionid,
+    UserId: req.params.userid,
+  },);
   Mark.findOneAndUpdate(
     {
       TestId: req.params.testid,
@@ -22,15 +27,15 @@ router.post("/mark/:testid/:questionid/:userid", (req, res) => {
     }
   )
     .then((retanswer) => {
-      console.log(retanswer);
+      res.json(retanswer.Mark);
     })
     .catch((err) => {
       console.log(err);
     });
 
-  res.send({
-    msg: "Mark was given",
-  });
+  // res.send({
+  //   msg: "Mark was given",
+  // });
 });
 
 router.get("/get/marks/:testid/:questionid/:userid", (req, res) => {
@@ -40,9 +45,14 @@ router.get("/get/marks/:testid/:questionid/:userid", (req, res) => {
     UserId: req.params.userid,
   };
   console.log(myquery);
-  Mark.find(myquery, function (err, result) {
+  Mark.findOne(myquery, function (err, result) {
+    console.log(err);
     if (err) throw err;
-    res.json(result);
+    if(result){
+      res.json(result.Mark);
+    }else{
+      res.json('0');
+    }
   });
 });
 

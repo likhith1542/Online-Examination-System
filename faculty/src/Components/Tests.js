@@ -120,25 +120,60 @@ function Tests() {
                           </div>
 
                           <br />
-                          
-                          <Link to={'/edittest/'+test._id} >
-                          <div>
-                            <span
-                              style={{
-                                backgroundColor: complete_color,
-                                padding: "5px 10px",
-                                borderRadius: "8px",
-                                color: "white",
-                                margin: "",
-                              }}
-                            >
-                              Edit
-                            </span>
-                          </div>
+
+                          <Link to={"/edittest/" + test._id}>
+                            <div>
+                              <span
+                                style={{
+                                  backgroundColor: complete_color,
+                                  padding: "5px 10px",
+                                  borderRadius: "8px",
+                                  color: "white",
+                                  margin: "",
+                                }}
+                              >
+                                Edit
+                              </span>
+                            </div>
                           </Link>
 
-                          <br/>
-                          <Link to={'/addstudents/'+test._id} >
+                          <br />
+                          <Link to={"/addstudents/" + test._id}>
+                            <div>
+                              <span
+                                style={{
+                                  backgroundColor: missed_color,
+                                  padding: "5px 10px",
+                                  borderRadius: "8px",
+                                  color: "white",
+                                  margin: "",
+                                }}
+                              >
+                                Add Students
+                              </span>
+                            </div>
+                          </Link>
+                        </div>
+                      ) : (
+                        <></>
+                      )
+                    ) : (
+                      <div>
+                        <div>
+                          <span
+                            style={{
+                              backgroundColor: complete_color,
+                              padding: "5px 10px",
+                              borderRadius: "8px",
+                              color: "white",
+                              margin: "",
+                            }}
+                          >
+                            Completed
+                          </span>
+                        </div>
+                        <br />
+                        <Link to={"/showscripts/" + test._id}>
                           <div>
                             <span
                               style={{
@@ -149,28 +184,10 @@ function Tests() {
                                 margin: "",
                               }}
                             >
-                              Add Students
+                              Show Scripts
                             </span>
                           </div>
-                          </Link>
-                          
-                        </div>
-                      ) : (
-                        <></>
-                      )
-                    ) : (
-                      <div>
-                        <span
-                          style={{
-                            backgroundColor: complete_color,
-                            padding: "5px 10px",
-                            borderRadius: "8px",
-                            color: "white",
-                            margin: "",
-                          }}
-                        >
-                          Completed
-                        </span>
+                        </Link>
                       </div>
                     )}
                     <br />

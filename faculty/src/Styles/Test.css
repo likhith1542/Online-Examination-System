@@ -85,6 +85,7 @@
     justify-content: center;
     align-items: center;
     height: 75%;
+    padding: 12px;
 }
 
 .navigator{
@@ -108,3 +109,13 @@
 .cambutton{
   margin-top: 25px;
 }
+
+.css-79ws1d-MuiModal-root {
+  position: fixed !important;
+  z-index: 1300 !important;
+  top: 5% !important;
+  left: 2% !important;
+  right: 2% !important;
+  bottom: 5% !important;
+}
+

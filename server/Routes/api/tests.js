@@ -8,6 +8,8 @@ var multerS3 = require("multer-s3");
 const Test = require("../../models/Test");
 const Question = require("../../models/Question");
 const Answer = require("../../models/Answer");
+const Mark=require("../../models/Mark")
+const Mongoose = require("mongoose");
 
 // @route POST api/questions/register
 // @desc Create Test
@@ -39,10 +41,10 @@ router.post("/create", (req, res) => {
     examDate: req.body.examdate,
     courseName: req.body.coursename,
     examName: req.body.examname,
-    duration:req.body.duration,
-    status:req.body.status,
-    faculty:req.body.faculty,
-    students:req.body.students
+    duration: req.body.duration,
+    status: req.body.status,
+    faculty: req.body.faculty,
+    students: req.body.students,
   });
 
   newTest
@@ -55,28 +57,31 @@ router.post("/create", (req, res) => {
 // @access admin
 router.post("/edit/:id", (req, res) => {
   let myquery = { _id: req.params.id };
-  let changes={
-    
+  let changes = {
     marks: req.body.marks,
     examDate: req.body.examdate,
     courseName: req.body.coursename,
     examName: req.body.examname,
-    duration:req.body.duration,
-  }
-  Test.findOneAndUpdate(myquery,changes,function (err,result){
+    duration: req.body.duration,
+  };
+  Test.findOneAndUpdate(myquery, changes, function (err, result) {
     console.log(result);
-    if(err) throw err;
+    if (err) throw err;
     res.json(result);
-  })
+  });
 });
 
-router.post("/submit/:id/:userid",(req,res)=>{
+router.post("/submit/:id/:userid", (req, res) => {
   let myquery = { _id: req.params.id };
-  Test.findOneAndUpdate(myquery,{$push:{"submittedBy":req.params.userid}},function (err,result){
-    if(err) throw err;
-    res.json(result);
-  })
-})
+  Test.findOneAndUpdate(
+    myquery,
+    { $push: { submittedBy: req.params.userid } },
+    function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    }
+  );
+});
 
 // @route GET api/tests/get/:id
 // @desc get Question
@@ -98,13 +103,12 @@ router.get("/test/get/:id", (req, res) => {
   });
 });
 
-
-router.get("/get",(req,res)=>{
-  Test.find({},function(err,result){
-    if(err) throw err;
+router.get("/get", (req, res) => {
+  Test.find({}, function (err, result) {
+    if (err) throw err;
     res.json(result);
-  })
-})
+  });
+});
 
 // @route POST api/tests/upload/:testid/:questionid/:userid
 // @desc POST Answers Image
@@ -132,9 +136,8 @@ router.post(
   "/upload/:testid/:questionid/:userid",
   upload.array("files"),
   function (req, res, next) {
-
-    if(req.files.length<=0){
-      return res.status(400).send({err:"Something Went Wrong"})
+    if (req.files.length <= 0) {
+      return res.status(400).send({ err: "Something Went Wrong" });
     }
     var returnfiles = req.files;
     var returnurls = [];
@@ -151,24 +154,29 @@ router.post(
     //   AnswerUrls: returnurls,
     // });
 
-
-    Answer.findOneAndUpdate({
-      TestId: req.params.testid.trim(),
-      QuestionId: req.params.questionid.trim(),
-      UserId: req.params.userid.trim(),
-    },{
-      TestId: req.params.testid.trim(),
-      QuestionId: req.params.questionid.trim(),
-      UserId: req.params.userid.trim(),
-      AnswerUrls: returnurls,
-    },{
-      new:true,
-      upsert:true
-    }).then((retanswer)=>{
-      console.log(retanswer);
-    }).catch((err)=>{
-      console.log(err);
-    })
+    Answer.findOneAndUpdate(
+      {
+        TestId: req.params.testid.trim(),
+        QuestionId: req.params.questionid.trim(),
+        UserId: req.params.userid.trim(),
+      },
+      {
+        TestId: req.params.testid.trim(),
+        QuestionId: req.params.questionid.trim(),
+        UserId: req.params.userid.trim(),
+        AnswerUrls: returnurls,
+      },
+      {
+        new: true,
+        upsert: true,
+      }
+    )
+      .then((retanswer) => {
+        console.log(retanswer);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
     // const newAnswer = new Answer({
     //   TestId: req.params.testid.trim(),
@@ -176,8 +184,6 @@ router.post(
     //   UserId: req.params.userid.trim(),
     //   AnswerUrls: returnurls,
     // });
-
-
 
     // newAnswer
     //   .save()
@@ -190,13 +196,16 @@ router.post(
   }
 );
 
-
 // @route GET api/tests/get/:testid/:questionid/:userid
 // @desc GET Answers Image
 // @access public
 
 router.get("/get/:testid/:questionid/:userid", (req, res) => {
-  let myquery = { TestId: req.params.testid,QuestionId:req.params.questionid,UserId:req.params.userid };
+  let myquery = {
+    TestId: req.params.testid,
+    QuestionId: req.params.questionid,
+    UserId: req.params.userid,
+  };
   console.log(myquery);
   Answer.find(myquery, function (err, result) {
     if (err) throw err;
@@ -207,11 +216,41 @@ router.get("/get/:testid/:questionid/:userid", (req, res) => {
 router.post("/addstudents/:testid", (req, res) => {
   let myquery = { _id: req.params.testid };
   console.log(req.body);
-  Test.findOneAndUpdate(myquery, {$set:{students:req.body.dbids}}, {new: true}, (err, result) =>{
-    if (err) throw err;
-    res.json(result);
-  });
+  Test.findOneAndUpdate(
+    myquery,
+    { $set: { students: req.body.dbids } },
+    { new: true },
+    (err, result) => {
+      if (err) throw err;
+      res.json(result);
+    }
+  );
 });
 
+router.get("/showscripts/:testid", (req, res) => {
+  Answer.aggregate()
+    .match({
+      TestId: Mongoose.Types.ObjectId(req.params.testid),
+    })
+    .group({
+      _id: "$UserId",
+      testId:{"$first":"$TestId"},
+      questionId: { $push: "$QuestionId" },
+      AnswerUrls: { $push: "$AnswerUrls" },
+    })
+   
+    .lookup({
+      from:"marks",
+      localField:"testId",
+      foreignField:"TestId",
+      as:"Marks",
+    })
+    .then((result) => {
+      return res.json(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
 module.exports = router;

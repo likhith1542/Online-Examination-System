@@ -19,6 +19,34 @@ a{
   color: inherit !important;
 }
 
+table{
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+  border-radius: 8px;
+  border-collapse: collapse;
+}
+
+td,th{
+border: 1px solid #dddddd;
+text-align: left;
+padding: 8px;
+}
+
+html {
+  overflow: scroll;
+  overflow-x: hidden;
+}
+::-webkit-scrollbar {
+  width: 0;  /* Remove scrollbar space */
+  background: transparent;  /* Optional: just make scrollbar invisible */
+}
+/* Optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+  background: #FF0000;
+}
+
+
 /*Video Call styles*/
 /* * {
   margin: 0;
