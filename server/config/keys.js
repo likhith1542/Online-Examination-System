@@ -1,4 +1,4 @@
 module.exports = {
-  mongoURI: "mongodb://127.0.0.1:27017/oes",
+  mongoURI: "mongodb+srv://likhith:testpassword@oescluster.hsgue.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
   secretOrKey: "oessecret",
 };
