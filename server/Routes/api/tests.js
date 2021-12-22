@@ -8,7 +8,7 @@ var multerS3 = require("multer-s3");
 const Test = require("../../models/Test");
 const Question = require("../../models/Question");
 const Answer = require("../../models/Answer");
-const Mark=require("../../models/Mark")
+const Mark = require("../../models/Mark");
 const Mongoose = require("mongoose");
 
 // @route POST api/questions/register
@@ -146,14 +146,6 @@ router.post(
     }
 
     console.log(returnurls);
-
-    // const newAnswer = new Answer({
-    //   TestId: req.params.testid.trim(),
-    //   QuestionId: req.params.questionid.trim(),
-    //   UserId: req.params.userid.trim(),
-    //   AnswerUrls: returnurls,
-    // });
-
     Answer.findOneAndUpdate(
       {
         TestId: req.params.testid.trim(),
@@ -177,19 +169,6 @@ router.post(
       .catch((err) => {
         console.log(err);
       });
-
-    // const newAnswer = new Answer({
-    //   TestId: req.params.testid.trim(),
-    //   QuestionId: req.params.questionid.trim(),
-    //   UserId: req.params.userid.trim(),
-    //   AnswerUrls: returnurls,
-    // });
-
-    // newAnswer
-    //   .save()
-    //   .then((test) => {return res.send(test)})
-    //   .catch((err) => console.log(err));
-
     res.send({
       msg: "Successfully uploaded " + req.files.length + " files!",
     });
@@ -234,16 +213,16 @@ router.get("/showscripts/:testid", (req, res) => {
     })
     .group({
       _id: "$UserId",
-      testId:{"$first":"$TestId"},
+      testId: { $first: "$TestId" },
       questionId: { $push: "$QuestionId" },
       AnswerUrls: { $push: "$AnswerUrls" },
     })
-   
+
     .lookup({
-      from:"marks",
-      localField:"testId",
-      foreignField:"TestId",
-      as:"Marks",
+      from: "marks",
+      localField: "testId",
+      foreignField: "TestId",
+      as: "Marks",
     })
     .then((result) => {
       return res.json(result);

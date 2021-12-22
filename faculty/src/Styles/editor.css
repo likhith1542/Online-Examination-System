@@ -1,0 +1,24 @@
+#cke_1_contents{
+    height: 450px !important;
+}
+.form-group{
+    display: flex;
+}
+
+.form-group .span{
+    background-color: rgb(238, 244, 255);
+    padding: 4px;
+    border-radius: 6px 0 0 6px;
+
+}
+
+.form-group input{
+    outline: none;
+    border-radius: 0 6px 6px 0;
+    border: 1px solid grey;
+    padding: 6px;
+}
+
+.marginer{
+    margin: 25px 0;
+}

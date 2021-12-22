@@ -14,6 +14,7 @@ import CreateTest from './Components/CreateTest';
 import EditTest from './Components/EditTest';
 import AddStudent from './Components/AddStudent';
 import ShowScripts from './Components/ShowScripts';
+import AddQuestion from './Components/AddQuestion';
 
 if (localStorage.jwtToken) {
   // Set auth token header auth
@@ -89,6 +90,14 @@ function App() {
               element={
                 <PrivateRoute>
                   <AddStudent />
+                </PrivateRoute>
+              }
+            />
+             <Route
+              path="/addquestions/:testid"
+              element={
+                <PrivateRoute>
+                  <AddQuestion />
                 </PrivateRoute>
               }
             />

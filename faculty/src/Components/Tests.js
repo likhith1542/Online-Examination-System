@@ -153,6 +153,22 @@ function Tests() {
                               </span>
                             </div>
                           </Link>
+                          <br/>
+                          <Link to={"/addquestions/" + test._id}>
+                            <div>
+                              <span
+                                style={{
+                                  backgroundColor: missed_color,
+                                  padding: "5px 10px",
+                                  borderRadius: "8px",
+                                  color: "white",
+                                  margin: "",
+                                }}
+                              >
+                                Add Questions
+                              </span>
+                            </div>
+                          </Link>
                         </div>
                       ) : (
                         <></>
@@ -190,7 +206,6 @@ function Tests() {
                         </Link>
                       </div>
                     )}
-                    <br />
                     {moment(test.examDate).diff(moment(), "minutes") <=
                       test.duration &&
                     moment(test.examDate)
@@ -198,36 +213,19 @@ function Tests() {
                       .diff(moment(), "minutes") > 0 &&
                     !test.submittedBy.includes(userid) ? (
                       <div>
-                        <Link to={"/test/" + test._id}>
-                          <div>
-                            <span
-                              style={{
-                                backgroundColor: open_exam_color,
-                                padding: "5px 10px",
-                                borderRadius: "8px",
-                                color: "white",
-                                margin: "",
-                              }}
-                            >
-                              Open Exam
-                            </span>
-                          </div>
-                        </Link>
-                        <br />
-                        <Link to="/test/1234567891/upload">
-                          <div>
-                            <span
-                              style={{
-                                backgroundColor: ans_upload_color,
-                                padding: "5px 10px",
-                                borderRadius: "8px",
-                                color: "white",
-                              }}
-                            >
-                              Upload Answers
-                            </span>
-                          </div>
-                        </Link>
+                        <span
+                            style={{
+                              backgroundColor: upcoming_color,
+                              padding: "5px 10px",
+                              borderRadius: "8px",
+                              color: "white",
+                              margin: "",
+                            }}
+                          >
+                            OnGoing
+                          </span>
+                        
+                        
                       </div>
                     ) : (
                       <></>
