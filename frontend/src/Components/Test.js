@@ -22,23 +22,7 @@ function Test() {
   const [open, setOpen] = useState(false);
   const handleModal = () => setOpen(!open);
 
-  const handleVideoCall = useCallback(
-    async (event) => {
-      event.preventDefault();
-      const data = await fetch("/video/token", {
-        method: "POST",
-        body: JSON.stringify({
-          identity: userid,
-          room: id,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((res) => res.json());
-      setToken(data.token);
-    },
-    [id, userid]
-  );
+  
 
   useEffect(async () => {
     const data = await fetch("/video/token", {

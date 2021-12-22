@@ -15,6 +15,8 @@ import EditTest from './Components/EditTest';
 import AddStudent from './Components/AddStudent';
 import ShowScripts from './Components/ShowScripts';
 import AddQuestion from './Components/AddQuestion';
+import ProctorTests from './Components/ProctorTests';
+import ProctorTest from "./Components/ProctorTest";
 
 if (localStorage.jwtToken) {
   // Set auth token header auth
@@ -65,6 +67,22 @@ function App() {
               element={
                 <PrivateRoute>
                   <CreateTest />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/proctor/:testid"
+              element={
+                <PrivateRoute>
+                  <ProctorTest />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/proctor"
+              element={
+                <PrivateRoute>
+                  <ProctorTests />
                 </PrivateRoute>
               }
             />

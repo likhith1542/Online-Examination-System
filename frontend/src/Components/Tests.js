@@ -17,6 +17,7 @@ function Tests() {
   let userid = store.getState().auth.user.id;
 
   useEffect(async () => {
+    async function getTests(){
     await axios
       .get("http://localhost:5000/api/tests/get")
       .then((res) => {
@@ -25,6 +26,8 @@ function Tests() {
       .catch((err) => {
         console.log(err);
       });
+    }
+    getTests()
   }, 
   // eslint-disable-next-line
   []);

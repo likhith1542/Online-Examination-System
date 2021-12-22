@@ -5,6 +5,7 @@ import axios from "axios";
 import moment from "moment";
 import store from "./../store";
 import { IoMdAdd } from "react-icons/io";
+import {GrView} from "react-icons/gr"
 function Tests() {
   const complete_color = "#1ac0c6";
   const upcoming_color = "#facd60";
@@ -13,7 +14,6 @@ function Tests() {
   const open_exam_color = "#56fbb5";
 
   const [tests, setTests] = useState([]);
-  const [marks, setMarks] = useState([]);
 
   let userid = store.getState().auth.user.id;
 
@@ -32,32 +32,12 @@ function Tests() {
     []
   );
 
-  useEffect(
-    () => {
-      tests.map((test, i) => {
-        axios
-          .get(
-            "http://localhost:5000/api/marks/get/marks/" +
-              test._id +
-              "/" +
-              userid
-          )
-          .then((res) => {
-            setMarks((marks) => [...marks, res.data.tm]);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      });
-    },
-    // eslint-disable-next-line
-    [tests]
-  );
+  
 
   return (
     <div className="tests">
       <div className="testsinner">
-        <div style={{ marginBottom: "25px" }}>
+        <div style={{ marginBottom: "25px",display:'flex',alignItems:'center' }}>
           <div style={{ width: "fit-content", cursor: "pointer" }}>
             <Link to="/createtest">
               <button
@@ -72,6 +52,24 @@ function Tests() {
               </button>
             </Link>
           </div>
+          <div style={{margin:'0 10px'}} >
+
+          </div>
+
+          <div style={{ width: "fit-content", cursor: "pointer" }}>
+            <Link to="/proctor">
+              <button
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  cursor: "pointer",
+                }}
+              >
+                {" "}
+                <GrView color="white" size={15} /> &nbsp; Proctor
+              </button>
+            </Link>
+          </div>
         </div>
 
         <table>
@@ -81,7 +79,6 @@ function Tests() {
               <th>Test Name</th>
               <th>Time</th>
               <th>Status</th>
-              <th>Result</th>
             </tr>
           </thead>
           <tbody>
@@ -231,40 +228,7 @@ function Tests() {
                       <></>
                     )}
                   </td>
-                  <td>
-                    {moment(test.examDate)
-                      .add(test.duration, "minutes")
-                      .diff(moment(), "minutes") -
-                      15 >
-                      0 && !test.submittedBy.includes(userid) ? (
-                      "-"
-                    ) : (
-                      <div>
-                        <p>
-                          {marks[i]}/{test.marks}
-                        </p>
-                        {test.submittedBy.includes(userid) ? (
-                          <Link to={"/answer/" + test._id}>
-                            <div>
-                              <span
-                                style={{
-                                  backgroundColor: complete_color,
-                                  padding: "5px 10px",
-                                  borderRadius: "8px",
-                                  color: "white",
-                                  margin: "",
-                                }}
-                              >
-                                View
-                              </span>
-                            </div>
-                          </Link>
-                        ) : (
-                          <></>
-                        )}
-                      </div>
-                    )}
-                  </td>
+                  
                 </tr>
               );
             })}

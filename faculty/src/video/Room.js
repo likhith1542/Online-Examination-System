@@ -18,11 +18,15 @@ const Room = ({ roomName, token, handleLogout }) => {
     };
 
     Video.connect(token, {
-      name: roomName
+      name: roomName,
+      audio: { name: 'microphone' },
+      video: { name: 'camera' },
+    
     }).then(room => {
       setRoom(room);
       room.on('participantConnected', participantConnected);
       room.on('participantDisconnected', participantDisconnected);
+      console.log(room.participants);
       room.participants.forEach(participantConnected);
     });
 
@@ -41,6 +45,10 @@ const Room = ({ roomName, token, handleLogout }) => {
     };
   }, [roomName, token]);
 
+  const remoteParticipants = participants.map(participant => (
+    <Participant key={participant.sid} participant={participant} />
+  ));
+
 
   return (
     <div className="room">
@@ -53,7 +61,9 @@ const Room = ({ roomName, token, handleLogout }) => {
         ) : (
           ''
         )}
-      </div>
+        </div>
+      <h3>Remote Participants</h3>
+      <div className="remote-participants">{remoteParticipants}</div>
     </div>
   );
 };

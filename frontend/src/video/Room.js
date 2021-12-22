@@ -18,7 +18,9 @@ const Room = ({ roomName, token, handleLogout }) => {
     };
 
     Video.connect(token, {
-      name: roomName
+      name: roomName,
+      audio: { name: 'microphone' },
+      video: { name: 'camera' },
     }).then(room => {
       setRoom(room);
       room.on('participantConnected', participantConnected);

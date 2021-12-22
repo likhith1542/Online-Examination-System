@@ -20,6 +20,7 @@ const Participant = ({ participant }) => {
       if (track.kind === "video") {
         setVideoTracks((videoTracks) => [...videoTracks, track]);
       } else if (track.kind === "audio") {
+        console.log(track);
         setAudioTracks((audioTracks) => [...audioTracks, track]);
       }
     };
@@ -64,8 +65,9 @@ const Participant = ({ participant }) => {
 
   return (
     <div className="participant">
+      <h3>{participant.identity}</h3>
       <video ref={videoRef} autoPlay={true} />
-      <audio ref={audioRef} autoPlay={true} muted={true} />
+      <audio ref={audioRef} autoPlay={true} muted={false} />
     </div>
   );
 };
