@@ -39,11 +39,9 @@ function AnswerSheet() {
               }
             })
             .catch((err) => {
-              console.log(err);
             });
         })
         .catch((err) => {
-          console.log(err);
         });
     },
     // eslint-disable-next-line
@@ -65,7 +63,6 @@ function AnswerSheet() {
           setMarks(res.data[0].Mark);
         })
         .catch((err) => {
-          console.log(err);
         });
     }
   }, [questions,index]);
@@ -99,7 +96,6 @@ function AnswerSheet() {
                   e.preventDefault();
                   if (index + 1 < questions.length) {
                     setIndex(index + 1);
-                    console.log(index);
                   }
                 }}
                 style={{

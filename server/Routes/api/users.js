@@ -36,7 +36,7 @@ router.post("/register", (req, res) => {
           newUser
             .save()
             .then((user) => res.json(user))
-            .catch((err) => console.log(err));
+            .catch((err) => {});
         });
       });
     }
@@ -46,12 +46,10 @@ router.post("/register", (req, res) => {
 // @desc Login user and return JWT token
 // @access Public
 router.post("/login", (req, res) => {
-  console.log(req.body);
   // Form validation
   const { errors, isValid } = validateLoginInput(req.body);
   // Check validation
   if (!isValid) {
-    console.log(errors);
     return res.status(400).json(errors);
   }
   const email = req.body.email;
@@ -60,7 +58,6 @@ router.post("/login", (req, res) => {
   User.findOne({ email }).then((user) => {
     // Check if user exists
     if (!user) {
-      console.log("error");
       return res.status(404).json({ emailnotfound: "Email not found" });
     }
     // Check password
@@ -99,7 +96,6 @@ router.get("/get/:id", (req, res) => {
   
   User.findOne({ regNo:req.params.id }).then((user) => {
     if(user){
-      console.log(user.regNo);
       return res.status(200).json({ids:user._id})
     }else{
       return res.status(200).json({err:'User Not Found'})

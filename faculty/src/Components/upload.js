@@ -3,7 +3,6 @@ import axios from "axios";
 
 const CkeDragdrop = () => {
   useEffect(() => {
-    console.log("testing1");
 
     axios
       .post("https://reqres.in/api/register", {
@@ -11,11 +10,8 @@ const CkeDragdrop = () => {
         password: "pistol",
       })
       .then((response) => {
-        console.log("testing2");
-        console.log(response);
       })
       .catch((error) => {
-        console.log(error);
       });
   }, []);
 

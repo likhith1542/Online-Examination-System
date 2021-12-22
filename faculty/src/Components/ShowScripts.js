@@ -27,7 +27,6 @@ function ShowScripts() {
         setUsers(res.data);
       })
       .catch((err) => {
-        console.log(err);
       });
 
     axios
@@ -36,7 +35,6 @@ function ShowScripts() {
         setScripts(res.data);
       })
       .catch((err) => {
-        console.log(err);
       });
 
     axios
@@ -45,7 +43,6 @@ function ShowScripts() {
         setQuestions(res.data);
       })
       .catch((err) => {
-        console.log(err);
       });
   }, [testid]);
 
@@ -100,7 +97,6 @@ function ShowScripts() {
         setTotalMark(res.data.tm.toString());
       })
       .catch((err) => {
-        console.log(err);
       });
   };
 
@@ -124,12 +120,10 @@ function ShowScripts() {
         { mark: mark }
       )
       .then((res) => {
-        console.log(res);
         setMark(res.data.toString());
         getTotalMarks(userId);
       })
       .catch((err) => {
-        console.log(err);
       });
   };
 
@@ -202,7 +196,6 @@ function ShowScripts() {
                             e.preventDefault();
                             if (index + 1 < questions.length) {
                               setIndex(index + 1);
-                              console.log(index);
                             }
                           }}
                         >
@@ -303,7 +296,6 @@ function ShowScripts() {
                                     script.AnswerUrls[index].length
                                   ) {
                                     setIndex1(index1 + 1);
-                                    console.log(index1);
                                   }
                                 }}
                               >

@@ -50,7 +50,7 @@ router.post("/create", (req, res) => {
   newTest
     .save()
     .then((test) => res.json(test))
-    .catch((err) => console.log(err));
+    .catch((err) => {});
 });
 // @route POST api/tests/edit/:id
 // @desc edit Test
@@ -65,7 +65,6 @@ router.post("/edit/:id", (req, res) => {
     duration: req.body.duration,
   };
   Test.findOneAndUpdate(myquery, changes, function (err, result) {
-    console.log(result);
     if (err) throw err;
     res.json(result);
   });
@@ -145,7 +144,6 @@ router.post(
       returnurls.push(returnfiles[i].location);
     }
 
-    console.log(returnurls);
     Answer.findOneAndUpdate(
       {
         TestId: req.params.testid.trim(),
@@ -164,10 +162,8 @@ router.post(
       }
     )
       .then((retanswer) => {
-        console.log(retanswer);
       })
       .catch((err) => {
-        console.log(err);
       });
     res.send({
       msg: "Successfully uploaded " + req.files.length + " files!",
@@ -185,7 +181,6 @@ router.get("/get/:testid/:questionid/:userid", (req, res) => {
     QuestionId: req.params.questionid,
     UserId: req.params.userid,
   };
-  console.log(myquery);
   Answer.find(myquery, function (err, result) {
     if (err) throw err;
     res.json(result);
@@ -194,7 +189,6 @@ router.get("/get/:testid/:questionid/:userid", (req, res) => {
 
 router.post("/addstudents/:testid", (req, res) => {
   let myquery = { _id: req.params.testid };
-  console.log(req.body);
   Test.findOneAndUpdate(
     myquery,
     { $set: { students: req.body.dbids } },
@@ -228,7 +222,6 @@ router.get("/showscripts/:testid", (req, res) => {
       return res.json(result);
     })
     .catch((err) => {
-      console.log(err);
     });
 });
 

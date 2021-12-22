@@ -48,15 +48,12 @@ function CreateTest(props) {
         duration: duration,
         faculty: store.getState().auth.user.id,
       };
-      console.log(testData);
       axios
         .post("http://localhost:5000/api/tests/create", testData)
         .then((res) => {
-          console.log(res);
           navigate('/')
         })
         .catch((err) => {
-          console.log(err);
         });
     }
   };

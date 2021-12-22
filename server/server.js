@@ -5,10 +5,8 @@ const passport = require("passport");
 const users = require("./routes/api/users");
 const questions = require("./routes/api/questions");
 const tests = require("./routes/api/tests");
-const marks=require("./routes/api/marks");
-const cors = require('cors');  
-
-
+const marks = require("./routes/api/marks");
+const cors = require("cors");
 
 const app = express();
 // Bodyparser middleware
@@ -17,7 +15,7 @@ app.use(
     extended: false,
   })
 );
-app.use(cors())
+app.use(cors());
 app.use(bodyParser.json());
 // DB Config
 const db = require("./config/keys").mongoURI;
@@ -25,7 +23,7 @@ const db = require("./config/keys").mongoURI;
 mongoose
   .connect(db, { useNewUrlParser: true })
   .then(() => console.log("MongoDB successfully connected"))
-  .catch((err) => console.log(err));
+  .catch((err) =>{});
 
 // Passport middleware
 app.use(passport.initialize());

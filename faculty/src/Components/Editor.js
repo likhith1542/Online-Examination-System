@@ -15,13 +15,10 @@ const TextEditor = ({ onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log();
 
     axios.post("http://localhost:5000/api/questions/upload",{ marks:mark,question:body,examid:testid }).then((res)=>{
-        console.log(res);
         navigate('/')
     }).catch((err)=>{
-        console.log(err);
     })
   };
 
@@ -53,7 +50,6 @@ const TextEditor = ({ onSubmit }) => {
         editor={ClassicEditor}
         onChange={(event, editor) => {
           const data = editor.getData();
-          console.log(data);
           setBody(data);
         }}
       />

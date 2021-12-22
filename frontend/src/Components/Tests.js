@@ -16,38 +16,43 @@ function Tests() {
 
   let userid = store.getState().auth.user.id;
 
-  useEffect(async () => {
-    async function getTests(){
-    await axios
-      .get("http://localhost:5000/api/tests/get")
-      .then((res) => {
-        setTests(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    }
-    getTests()
-  }, 
-  // eslint-disable-next-line
-  []);
+  useEffect(
+    () => {
+      async function getTests() {
+        await axios
+          .get("http://localhost:5000/api/tests/get")
+          .then((res) => {
+            setTests(res.data);
+          })
+          .catch((err) => {
+          });
+      }
+      getTests();
+    },
+    // eslint-disable-next-line
+    []
+  );
 
-  useEffect(() => {
-    tests.map((test, i) => {
-      axios
-        .get(
-          "http://localhost:5000/api/marks/get/marks/" + test._id + "/" + userid
-        )
-        .then((res) => {
-          setMarks((marks) => [...marks, res.data.tm]);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    });
-  }, 
-  // eslint-disable-next-line
-  [tests]);
+  useEffect(
+    () => {
+      tests.map((test, i) => {
+        axios
+          .get(
+            "http://localhost:5000/api/marks/get/marks/" +
+              test._id +
+              "/" +
+              userid
+          )
+          .then((res) => {
+            setMarks((marks) => [...marks, res.data.tm]);
+          })
+          .catch((err) => {
+          });
+      });
+    },
+    // eslint-disable-next-line
+    [tests]
+  );
 
   return (
     <div className="tests">
@@ -64,7 +69,7 @@ function Tests() {
           </thead>
           <tbody>
             {tests.map((test, i) => {
-              return (
+              return test.students.includes(userid) ? (
                 <tr key={i + 1}>
                   <td>{i + 1}</td>
                   <td>{test.courseName}</td>
@@ -204,6 +209,8 @@ function Tests() {
                     )}
                   </td>
                 </tr>
+              ) : (
+                <></>
               );
             })}
           </tbody>

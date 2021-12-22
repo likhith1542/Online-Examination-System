@@ -40,7 +40,6 @@ function EditTest(props) {
           setMarks(dat.marks);
           setDuration(dat.duration)
       }).catch((err)=>{
-          console.log(err);
       })
   },[])
 
@@ -65,15 +64,12 @@ function EditTest(props) {
         duration: duration,
         faculty: store.getState().auth.user.id,
       };
-      console.log(testData);
       axios
         .post("http://localhost:5000/api/tests/edit/"+testid, testData)
         .then((res) => {
-          console.log(res);
           navigate("/");
         })
         .catch((err) => {
-          console.log(err);
         });
     }
   };

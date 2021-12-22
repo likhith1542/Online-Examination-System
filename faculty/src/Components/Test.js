@@ -55,7 +55,6 @@ function Test() {
   }, [id, userid]);
 
   const handleLogout = useCallback((event) => {
-    console.log("logout");
     event.preventDefault();
     setToken(null);
   }, []);
@@ -65,7 +64,6 @@ function Test() {
       axios
         .get("http://localhost:5000/api/tests/get/" + id)
         .then((res) => {
-          console.log(res.data);
 
           axios
             .get(
@@ -90,11 +88,9 @@ function Test() {
               }
             })
             .catch((err) => {
-              console.log(err);
             });
         })
         .catch((err) => {
-          console.log(err);
         });
     },
     // eslint-disable-next-line
@@ -106,11 +102,9 @@ function Test() {
     axios
       .post("http://localhost:5000/api/tests/submit/" + id + "/" + userid)
       .then((res) => {
-        console.log(res);
         navi("/");
       })
       .catch((err) => {
-        console.log(err);
       });
   };
 
@@ -167,7 +161,6 @@ function Test() {
                   e.preventDefault();
                   if (index + 1 < questions.length) {
                     setIndex(index + 1);
-                    console.log(index);
                   }
                 }}
                 style={{

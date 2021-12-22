@@ -27,7 +27,6 @@ function ProctorTest() {
   }, [testid, userid]);
 
   const handleLogout = useCallback((event) => {
-    console.log("logout");
     event.preventDefault();
     setToken(null);
   }, []);

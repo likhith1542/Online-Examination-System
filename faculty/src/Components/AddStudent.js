@@ -30,7 +30,6 @@ function AddStudent() {
   useEffect(() => {
     for (let i = 0; i < csvArray.length; i++) {
       if (csvArray[i].RegNo !== undefined) {
-        console.log(csvArray[i].RegNo);
         setRegns((rns) => [...rns, csvArray[i].RegNo]);
         axios
           .get("http://localhost:5000/api/users/get/" + csvArray[i].RegNo)
@@ -40,41 +39,22 @@ function AddStudent() {
             }
           })
           .catch((err) => {
-            console.log(err);
           });
       }
     }
   }, [csvArray]);
 
-  //   useEffect(() => {
-  //     if (csvArray.length === regns.length) {
-  //       getids();
-  //     }
-  //   }, [regns]);
 
-  //   const getids = () => {
-  //     axios
-  //       .get("http://localhost:5000/api/users/get/61bcd291aa80cebe10149e4f")
-  //       .then((res) => {
-  //         setDbids((dbid) => [...dbid, res.data._id]);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   };
 
   let { testid } = useParams();
 
   const submit = () => {
     let myquery = { dbids: dbids };
-    console.log(myquery.dbids);
 
     axios
       .post("http://localhost:5000/api/tests/addstudents/" + testid, myquery)
       .then((result)=>{
-        console.log(result);
       }).catch((err)=>{
-        console.log(err);
       })
   };
 

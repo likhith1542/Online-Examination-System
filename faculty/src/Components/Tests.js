@@ -25,7 +25,6 @@ function Tests() {
           setTests(res.data);
         })
         .catch((err) => {
-          console.log(err);
         });
     },
     // eslint-disable-next-line
@@ -84,6 +83,7 @@ function Tests() {
           <tbody>
             {tests.map((test, i) => {
               return (
+                test.faculty===userid?
                 <tr key={i + 1}>
                   <td>{i + 1}</td>
                   <td>{test.courseName}</td>
@@ -229,7 +229,7 @@ function Tests() {
                     )}
                   </td>
                   
-                </tr>
+                </tr>:<></>
               );
             })}
           </tbody>

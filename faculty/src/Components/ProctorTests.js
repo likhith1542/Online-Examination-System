@@ -20,7 +20,6 @@ function ProctorTests() {
           setTests(res.data);
         })
         .catch((err) => {
-          console.log(err);
         });
     },
     // eslint-disable-next-line

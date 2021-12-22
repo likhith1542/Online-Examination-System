@@ -44,9 +44,7 @@ const Login = (props) => {
       email: email,
       password: pass,
     };
-    console.log(userData);
     props.loginUser(userData);
-    console.log(userData);
   };
   return (
     <div className="login">

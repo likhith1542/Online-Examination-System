@@ -35,7 +35,7 @@ router.post("/upload", (req, res) => {
   newQuestion
     .save()
     .then((question) => res.json(question))
-    .catch((err) => console.log(err));
+    .catch((err) => {});
 });
 // @route POST api/questions/edit/:id
 // @desc edit Question

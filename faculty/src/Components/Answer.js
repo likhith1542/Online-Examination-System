@@ -21,16 +21,13 @@ function Answer({ questionid, showuploads }) {
   function uploadSingleFile(e) {
     // setFile(file,[])
     // setDisplayImages(displayImages,[])
-    console.log(displayImages);
     let ImagesArray = Object.entries(e.target.files).map((e) =>
       URL.createObjectURL(e[1])
     );
-    console.log(ImagesArray);
     setSuccess(null);
     setFetched(false);
     setDisplayImages(ImagesArray);
     setFile(e.target.files);
-    console.log(displayImages);
   }
 
   function upload(e) {
@@ -52,21 +49,14 @@ function Answer({ questionid, showuploads }) {
         formData
       )
       .then((res) => {
-        console.log(res);
         setSuccess(res.data.msg);
         setFetched(true);
       })
       .catch((err) => {
-        console.log(err);
         setSuccess(false);
       });
   }
 
-  // function deleteFile(e) {
-  //   const s = file.filter((item, index) => index !== e);
-  //   setFile(s);
-  //   console.log(s);
-  // }
 
   useEffect(() => {
     setFile([]);
@@ -88,7 +78,6 @@ function Answer({ questionid, showuploads }) {
         setFetched(true);
       })
       .catch((err) => {
-        console.log(err);
       });
   }, [id, questionid]);
   return (
@@ -144,7 +133,6 @@ function Answer({ questionid, showuploads }) {
                   e.preventDefault();
                   if (index + 1 < displayImages.length) {
                     setIndex(index + 1);
-                    console.log(index);
                   }
                 }}
               >

@@ -20,7 +20,6 @@ const Participant = ({ participant }) => {
       if (track.kind === "video") {
         setVideoTracks((videoTracks) => [...videoTracks, track]);
       } else if (track.kind === "audio") {
-        console.log(track);
         setAudioTracks((audioTracks) => [...audioTracks, track]);
       }
     };

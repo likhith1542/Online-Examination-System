@@ -10,11 +10,9 @@ import {
 
 // Login - get user token
 export const loginUser = (userData)=>dispatch => {
-  console.log(userData);
   axios
     .post("http://localhost:5000/api/users/login", userData)
     .then(res => {
-      console.log(res);
       // Save to localStorage
 // Set token to localStorage
       const { token } = res.data;
@@ -25,13 +23,11 @@ export const loginUser = (userData)=>dispatch => {
       const decoded = jwt_decode(token);
       // Set current user
 
-      console.log(decoded);
       dispatch(setCurrentUser(decoded));
     })
     .catch(err =>
 
       {
-        console.log(err);
         dispatch({
         type: GET_ERRORS,
         payload: err.response.data
