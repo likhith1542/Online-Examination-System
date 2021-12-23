@@ -32,19 +32,16 @@ function AddStudent() {
       if (csvArray[i].RegNo !== undefined) {
         setRegns((rns) => [...rns, csvArray[i].RegNo]);
         axios
-          .get("http://localhost:5000/api/users/get/" + csvArray[i].RegNo)
+          .get("http://192.168.29.67:5000/api/users/get/" + csvArray[i].RegNo)
           .then((res) => {
             if (res.data.ids) {
               setDbids((dbid) => [...dbid, res.data.ids]);
             }
           })
-          .catch((err) => {
-          });
+          .catch((err) => {});
       }
     }
   }, [csvArray]);
-
-
 
   let { testid } = useParams();
 
@@ -52,10 +49,12 @@ function AddStudent() {
     let myquery = { dbids: dbids };
 
     axios
-      .post("http://localhost:5000/api/tests/addstudents/" + testid, myquery)
-      .then((result)=>{
-      }).catch((err)=>{
-      })
+      .post(
+        "http://192.168.29.67:5000/api/tests/addstudents/" + testid,
+        myquery
+      )
+      .then((result) => {})
+      .catch((err) => {});
   };
 
   const upload = () => {

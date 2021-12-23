@@ -1,8 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
+import store from "./../store";
+import Controls from './../Components/Controls';
 
-const Participant = ({ participant }) => {
+const Participant = ({ participant,  
+  handleAudioToggle,
+  handleVideoToggle,
+  toggleAudio,
+  toggleVideo
+ }) => {
   const [videoTracks, setVideoTracks] = useState([]);
   const [audioTracks, setAudioTracks] = useState([]);
+  const [muted, setMuted] = useState(true);
 
   const videoRef = useRef();
   const audioRef = useRef();
@@ -64,9 +72,36 @@ const Participant = ({ participant }) => {
 
   return (
     <div className="participant">
-      <h3>{participant.identity}</h3>
-      <video ref={videoRef} autoPlay={true} />
-      <audio ref={audioRef} autoPlay={true} muted={false} />
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
+        <h3>{participant.identity}</h3>
+
+        <video ref={videoRef} autoPlay={true} />
+        <audio ref={audioRef} autoPlay={true} muted={muted} />
+
+        {participant.identity === store.getState().auth.user.id ? (
+          <Controls
+            handleAudioToggle={handleAudioToggle}
+            handleVideoToggle={handleVideoToggle}
+            audio={toggleAudio}
+            video={toggleVideo}
+          />
+        ) : (
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              setMuted(!muted);
+            }}
+          >
+            {muted ? "unmute" : "mute"}
+          </button>
+        )}
+      </div>
     </div>
   );
 };

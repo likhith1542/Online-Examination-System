@@ -40,7 +40,7 @@ function Answer({ questionid, showuploads }) {
 
     axios
       .post(
-        "http://localhost:5000/api/tests/upload/" +
+        "http://192.168.29.67:5000/api/tests/upload/" +
           id +
           "/" +
           questionid +
@@ -65,7 +65,7 @@ function Answer({ questionid, showuploads }) {
 
     axios
       .get(
-        "http://localhost:5000/api/tests/get/" +
+        "http://192.168.29.67:5000/api/tests/get/" +
           id +
           "/" +
           questionid +
@@ -76,8 +76,7 @@ function Answer({ questionid, showuploads }) {
         setDisplayImages(res.data[0].AnswerUrls);
         setFetched(true);
       })
-      .catch((err) => {
-      });
+      .catch((err) => {});
   }, [id, questionid]);
   return (
     <div>
@@ -89,6 +88,8 @@ function Answer({ questionid, showuploads }) {
             multiple
             hidden
             onChange={uploadSingleFile}
+
+            capture="camera"
           ></input>
           <label for="ansbtn">Choose Files</label>
           <button
@@ -156,8 +157,7 @@ function Answer({ questionid, showuploads }) {
           {displayImages.length > 0 ? (
             fetched ? (
               <button
-
-              style={{marginTop:'25px'}}
+                style={{ marginTop: "25px" }}
                 onClick={(e) => {
                   e.preventDefault();
                   handleOpen();

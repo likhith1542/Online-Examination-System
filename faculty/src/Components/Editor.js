@@ -3,23 +3,29 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import UploadAdapter from "./UploadAdapter";
 import "../Styles/editor.css";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const TextEditor = ({ onSubmit }) => {
   const [body, setBody] = useState("");
   const [mark, setMark] = useState(0);
-  let {testid}=useParams()
-  let navigate=useNavigate()
+  let { testid } = useParams();
+  let navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.post("http://localhost:5000/api/questions/upload",{ marks:mark,question:body,examid:testid }).then((res)=>{
-        navigate('/')
-    }).catch((err)=>{
-    })
+    axios
+      .post("http://192.168.29.67:5000/api/questions/upload", {
+        marks: mark,
+        question: body,
+        examid: testid,
+      })
+      .then((res) => {
+        navigate("/");
+      })
+      .catch((err) => {});
   };
 
   return (
@@ -34,9 +40,14 @@ const TextEditor = ({ onSubmit }) => {
         >
           Enter Marks
         </span>
-        <input class="form-field" type="text" value={mark} onChange={(e)=>{
-            setMark(e.target.value)
-        }} />
+        <input
+          class="form-field"
+          type="text"
+          value={mark}
+          onChange={(e) => {
+            setMark(e.target.value);
+          }}
+        />
       </div>
       <CKEditor
         // here's where we are using our custom adapter

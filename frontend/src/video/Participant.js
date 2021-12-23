@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 
-const Participant = ({ participant }) => {
+const Participant = ({ participant,VIDEO }) => {
   const [videoTracks, setVideoTracks] = useState([]);
   const [audioTracks, setAudioTracks] = useState([]);
 
   const videoRef = useRef();
   const audioRef = useRef();
 
+  console.log(participant);
   const trackpubsToTracks = (trackMap) =>
     Array.from(trackMap.values())
       .map((publication) => publication.track)
@@ -65,7 +66,7 @@ const Participant = ({ participant }) => {
 
   return (
     <div className="participant">
-      <video ref={videoRef} autoPlay={true} />
+      {!VIDEO?<video ref={videoRef} autoPlay={true} />:<></>}
       <audio ref={audioRef} autoPlay={true} muted={false} />
     </div>
   );

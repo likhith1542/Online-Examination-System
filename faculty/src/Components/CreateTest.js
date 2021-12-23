@@ -6,7 +6,7 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { TextField } from "@mui/material";
 import "../Styles/createtest.css";
-import axios from 'axios';
+import axios from "axios";
 function CreateTest(props) {
   const [examName, setexamName] = useState("");
   const [courseName, setCourseName] = useState("");
@@ -49,12 +49,11 @@ function CreateTest(props) {
         faculty: store.getState().auth.user.id,
       };
       axios
-        .post("http://localhost:5000/api/tests/create", testData)
+        .post("http://192.168.29.67:5000/api/tests/create", testData)
         .then((res) => {
-          navigate('/')
+          navigate("/");
         })
-        .catch((err) => {
-        });
+        .catch((err) => {});
     }
   };
   return (

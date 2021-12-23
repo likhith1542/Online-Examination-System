@@ -42,7 +42,7 @@ function App() {
       <div className="App">
         <BrowserRouter>
           <Navbar />
-        <div style={{marginTop:'70px'}} >
+        <div style={{marginTop:'85px'}} >
         <Routes>
             <Route exact path="/login" element={<Login />} />
             <Route

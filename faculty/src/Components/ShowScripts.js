@@ -22,28 +22,25 @@ function ShowScripts() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/users/get")
+      .get("http://192.168.29.67:5000/api/users/get")
       .then((res) => {
         setUsers(res.data);
       })
-      .catch((err) => {
-      });
+      .catch((err) => {});
 
     axios
-      .get("http://localhost:5000/api/tests/showscripts/" + testid)
+      .get("http://192.168.29.67:5000/api/tests/showscripts/" + testid)
       .then((res) => {
         setScripts(res.data);
       })
-      .catch((err) => {
-      });
+      .catch((err) => {});
 
     axios
-      .get("http://localhost:5000/api/tests/get/" + testid)
+      .get("http://192.168.29.67:5000/api/tests/get/" + testid)
       .then((res) => {
         setQuestions(res.data);
       })
-      .catch((err) => {
-      });
+      .catch((err) => {});
   }, [testid]);
 
   const getUserName = (userid) => {
@@ -78,8 +75,6 @@ function ShowScripts() {
     return "Not Found";
   };
 
-  
-
   // useEffect(() => {
   //   if(userIdd && questionIdd){
   //     getMarks()
@@ -92,16 +87,17 @@ function ShowScripts() {
 
   const getTotalMarks = (userid) => {
     axios
-      .get("http://localhost:5000/api/marks/get/marks/" + testid + "/" + userid)
+      .get(
+        "http://192.168.29.67:5000/api/marks/get/marks/" + testid + "/" + userid
+      )
       .then((res) => {
         setTotalMark(res.data.tm.toString());
       })
-      .catch((err) => {
-      });
+      .catch((err) => {});
   };
 
   useEffect(() => {
-    setEditing(false)
+    setEditing(false);
     setIndex1(0);
     setMark("NA");
   }, [index]);
@@ -111,7 +107,7 @@ function ShowScripts() {
 
     axios
       .post(
-        "http://localhost:5000/api/marks/mark/" +
+        "http://192.168.29.67:5000/api/marks/mark/" +
           testid +
           "/" +
           questionId +
@@ -123,8 +119,7 @@ function ShowScripts() {
         setMark(res.data.toString());
         getTotalMarks(userId);
       })
-      .catch((err) => {
-      });
+      .catch((err) => {});
   };
 
   return (
@@ -246,17 +241,18 @@ function ShowScripts() {
                                 className="marks"
                                 type="text"
                                 value={
-                                  script.Marks[index]['Mark'] && !editing
-                                    ? script.Marks[index]['Mark']
+                                  script.Marks[index]["Mark"] && !editing
+                                    ? script.Marks[index]["Mark"]
                                     : mark
                                 }
                                 onChange={(e) => {
-                                  setEditing(true)
+                                  setEditing(true);
                                   setMark(e.target.value);
                                 }}
                               />
 
-                              {mark !== "NA" && mark.toString().trim() !== "" ? (
+                              {mark !== "NA" &&
+                              mark.toString().trim() !== "" ? (
                                 <button
                                   style={{
                                     marginTop: "25px",

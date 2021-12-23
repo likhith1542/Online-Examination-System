@@ -15,12 +15,11 @@ function ProctorTests() {
   useEffect(
     async () => {
       await axios
-        .get("http://localhost:5000/api/tests/get")
+        .get("http://192.168.29.67:5000/api/tests/get")
         .then((res) => {
           setTests(res.data);
         })
-        .catch((err) => {
-        });
+        .catch((err) => {});
     },
     // eslint-disable-next-line
     []

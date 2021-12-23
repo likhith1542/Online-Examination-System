@@ -5,7 +5,7 @@ import axios from "axios";
 import moment from "moment";
 import store from "./../store";
 import { IoMdAdd } from "react-icons/io";
-import {GrView} from "react-icons/gr"
+import { GrView } from "react-icons/gr";
 function Tests() {
   const complete_color = "#1ac0c6";
   const upcoming_color = "#facd60";
@@ -20,23 +20,26 @@ function Tests() {
   useEffect(
     async () => {
       await axios
-        .get("http://localhost:5000/api/tests/get")
+        .get("http://192.168.29.67:5000/api/tests/get")
         .then((res) => {
           setTests(res.data);
         })
-        .catch((err) => {
-        });
+        .catch((err) => {});
     },
     // eslint-disable-next-line
     []
   );
 
-  
-
   return (
     <div className="tests">
       <div className="testsinner">
-        <div style={{ marginBottom: "25px",display:'flex',alignItems:'center' }}>
+        <div
+          style={{
+            marginBottom: "25px",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
           <div style={{ width: "fit-content", cursor: "pointer" }}>
             <Link to="/createtest">
               <button
@@ -51,9 +54,7 @@ function Tests() {
               </button>
             </Link>
           </div>
-          <div style={{margin:'0 10px'}} >
-
-          </div>
+          <div style={{ margin: "0 10px" }}></div>
 
           <div style={{ width: "fit-content", cursor: "pointer" }}>
             <Link to="/proctor">
@@ -82,8 +83,7 @@ function Tests() {
           </thead>
           <tbody>
             {tests.map((test, i) => {
-              return (
-                test.faculty===userid?
+              return test.faculty === userid ? (
                 <tr key={i + 1}>
                   <td>{i + 1}</td>
                   <td>{test.courseName}</td>
@@ -150,7 +150,7 @@ function Tests() {
                               </span>
                             </div>
                           </Link>
-                          <br/>
+                          <br />
                           <Link to={"/addquestions/" + test._id}>
                             <div>
                               <span
@@ -203,33 +203,10 @@ function Tests() {
                         </Link>
                       </div>
                     )}
-                    {moment(test.examDate).diff(moment(), "minutes") <=
-                      test.duration &&
-                    moment(test.examDate)
-                      .add(test.duration, "minutes")
-                      .diff(moment(), "minutes") > 0 &&
-                    !test.submittedBy.includes(userid) ? (
-                      <div>
-                        <span
-                            style={{
-                              backgroundColor: upcoming_color,
-                              padding: "5px 10px",
-                              borderRadius: "8px",
-                              color: "white",
-                              margin: "",
-                            }}
-                          >
-                            OnGoing
-                          </span>
-                        
-                        
-                      </div>
-                    ) : (
-                      <></>
-                    )}
                   </td>
-                  
-                </tr>:<></>
+                </tr>
+              ) : (
+                <></>
               );
             })}
           </tbody>

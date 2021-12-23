@@ -1,12 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&family=Readex+Pro:wght@300&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&family=Readex+Pro:wght@300&display=swap");
 
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
-button{
+button {
   border: none;
   padding: 5px 15px;
   background-color: brown;
@@ -14,23 +14,47 @@ button{
   border-radius: 4px;
 }
 
-a{
+a {
   text-decoration: none !important;
   color: inherit !important;
 }
 
-table{
+table {
   border: 1px solid #dddddd;
   text-align: left;
   padding: 8px;
   border-radius: 8px;
   border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
 }
 
-td,th{
-border: 1px solid #dddddd;
-text-align: left;
-padding: 8px;
+td > div > a > div {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  padding: 5px 10px;
+}
+
+td > div > div {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  padding: 5px 10px;
+}
+
+td > a > div {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  padding: 5px 10px;
+}
+
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
 }
 
 html {
@@ -38,56 +62,20 @@ html {
   overflow-x: hidden;
 }
 ::-webkit-scrollbar {
-  width: 0;  /* Remove scrollbar space */
-  background: transparent;  /* Optional: just make scrollbar invisible */
+  width: 0; /* Remove scrollbar space */
+  background: transparent; /* Optional: just make scrollbar invisible */
 }
 /* Optional: show position indicator in red */
 ::-webkit-scrollbar-thumb {
-  background: #FF0000;
+  background: #ff0000;
 }
 
+/* video{
+  max-width: 300px;
+} */
 
 /*Video Call styles*/
-/* * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  height: 100%;
-}
-
-body {
-  font-family: Helvetica, Arial, sans-serif;
-  color: #333e5a;
-  min-height: 100%;
-}
-
-header {
-  background: #f0293e;
-  color: #fff;
-  text-align: center;
-  flex-grow: 0;
-  margin-bottom: 2em;
-}
-
-h1 {
-  font-weight: 300;
-  padding: 0.4em 0;
-}
-
-#root {
-  min-height: 100vh;
-}
-
-.app {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-main {
+* main {
   background: #ffffff;
   flex-grow: 1;
 }
@@ -95,12 +83,6 @@ main {
 form {
   max-width: 300px;
   margin: 0 auto;
-}
-
-h2 {
-  font-weight: 300;
-  margin-bottom: 1em;
-  text-align: center;
 }
 
 form > div {
@@ -120,26 +102,6 @@ form > div > input {
   border: 1px solid #333e5a;
 }
 
-button {
-  background: #333e5a;
-  color: #fff;
-  font-size: 16px;
-  padding: 0.4em;
-  border-radius: 6px;
-  border: 1px solid transparent;
-}
-button:hover {
-  filter: brightness(150%);
-}
-
-.room {
-  position: relative;
-}
-.room button {
-  position: absolute;
-  top: 0;
-  right: 20px;
-}
 .room > h3 {
   text-align: center;
   font-weight: 300;
@@ -148,7 +110,7 @@ button:hover {
 
 .local-participant {
   text-align: center;
-  margin-bottom: 2em;
+  margin: 2em;
 }
 .remote-participants {
   display: flex;
@@ -157,7 +119,7 @@ button:hover {
   padding: 0 2em 2em;
 }
 .participant {
-  background: #333e5a;
+  background: #a52a2a;
   padding: 10px;
   border-radius: 6px;
   display: inline-block;
@@ -180,14 +142,27 @@ video {
   border-radius: 6px;
 }
 
-footer {
-  background: #333e5a;
-  color: #fff;
-  text-align: center;
-  flex-grow: 0;
-  padding: 1em 0;
-}
+@media (min-width: 320px) {
+  table {
+    table-layout: inherit !important;
+  }
 
-footer a {
-  color: #fff;
-} */
+  .testsinner {
+    width: 90% !important;
+  }
+}
+@media (min-width: 481px) {
+  /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
+}
+@media (min-width: 641px) {
+  /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+}
+@media (min-width: 961px) {
+  /* tablet, landscape iPad, lo-res laptops ands desktops */
+}
+@media (min-width: 1025px) {
+  /* big landscape tablets, laptops, and desktops */
+}
+@media (min-width: 1281px) {
+  /* hi-res laptops and desktops */
+}

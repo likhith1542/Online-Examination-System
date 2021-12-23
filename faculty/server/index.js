@@ -38,6 +38,6 @@ app.post('/video/token', (req, res) => {
   sendTokenResponse(token, res);
 });
 
-app.listen(3001, () =>
+app.listen(3001, '192.168.29.67',() =>
   console.log('Express server is running on localhost:3001')
 );

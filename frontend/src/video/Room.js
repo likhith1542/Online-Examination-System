@@ -5,6 +5,7 @@ import Participant from './Participant';
 const Room = ({ roomName, token, handleLogout }) => {
   const [room, setRoom] = useState(null);
   const [participants, setParticipants] = useState([]);
+  
 
   useEffect(() => {
     const participantConnected = participant => {
@@ -42,7 +43,10 @@ const Room = ({ roomName, token, handleLogout }) => {
       });
     };
   }, [roomName, token]);
-
+  
+  const remoteParticipants = participants.map((participant) => (
+    <Participant key={participant.sid} participant={participant} VIDEO='no' />
+  ));
 
   return (
     <div className="room">
@@ -56,6 +60,7 @@ const Room = ({ roomName, token, handleLogout }) => {
           ''
         )}
       </div>
+      <div className="remote-participants">{remoteParticipants}</div>
     </div>
   );
 };

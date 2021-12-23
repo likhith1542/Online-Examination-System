@@ -9,15 +9,14 @@ import "../Styles/createtest.css";
 import axios from "axios";
 
 function EditTest(props) {
-  
-    const [examName, setexamName] = useState("");
+  const [examName, setexamName] = useState("");
   const [courseName, setCourseName] = useState("");
   const [marks, setMarks] = useState();
   const [date, setDate] = useState(Date.now());
   const [duration, setDuration] = useState();
   const [errors, setErrors] = useState();
 
-  let {testid}=useParams();
+  let { testid } = useParams();
 
   let navigate = useNavigate();
 
@@ -31,17 +30,19 @@ function EditTest(props) {
     [props.errors]
   );
 
-  useEffect(()=>{
-      axios.get('http://localhost:5000/api/tests/test/get/'+testid).then((res)=>{
-          let dat=(res.data[0]);
-          setCourseName(dat.courseName);
-          setexamName(dat.examName);
-          setDate(dat.examDate);
-          setMarks(dat.marks);
-          setDuration(dat.duration)
-      }).catch((err)=>{
+  useEffect(() => {
+    axios
+      .get("http://192.168.29.67:5000/api/tests/test/get/" + testid)
+      .then((res) => {
+        let dat = res.data[0];
+        setCourseName(dat.courseName);
+        setexamName(dat.examName);
+        setDate(dat.examDate);
+        setMarks(dat.marks);
+        setDuration(dat.duration);
       })
-  },[])
+      .catch((err) => {});
+  }, []);
 
   const submitTestDet = (e) => {
     e.preventDefault();
@@ -65,12 +66,11 @@ function EditTest(props) {
         faculty: store.getState().auth.user.id,
       };
       axios
-        .post("http://localhost:5000/api/tests/edit/"+testid, testData)
+        .post("http://192.168.29.67:5000/api/tests/edit/" + testid, testData)
         .then((res) => {
           navigate("/");
         })
-        .catch((err) => {
-        });
+        .catch((err) => {});
     }
   };
   return (

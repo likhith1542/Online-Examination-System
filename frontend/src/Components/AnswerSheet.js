@@ -20,12 +20,12 @@ function AnswerSheet() {
   useEffect(
     () => {
       axios
-        .get("http://localhost:5000/api/tests/get/" + id)
+        .get("http://192.168.29.67:5000/api/tests/get/" + id)
         .then((res) => {
-
           axios
             .get(
-              "http://localhost:5000/api/tests/test/get/" + res.data[0].examId
+              "http://192.168.29.67:5000/api/tests/test/get/" +
+                res.data[0].examId
             )
             .then((res2) => {
               let a =
@@ -38,11 +38,9 @@ function AnswerSheet() {
                 navi("/");
               }
             })
-            .catch((err) => {
-            });
+            .catch((err) => {});
         })
-        .catch((err) => {
-        });
+        .catch((err) => {});
     },
     // eslint-disable-next-line
     [id]
@@ -52,7 +50,7 @@ function AnswerSheet() {
     if (questions.length > 0) {
       axios
         .get(
-          "http://localhost:5000/api/marks/get/marks/" +
+          "http://192.168.29.67:5000/api/marks/get/marks/" +
             id +
             "/" +
             questions[index]._id +
@@ -62,10 +60,9 @@ function AnswerSheet() {
         .then((res) => {
           setMarks(res.data[0].Mark);
         })
-        .catch((err) => {
-        });
+        .catch((err) => {});
     }
-  }, [questions,index]);
+  }, [questions, index]);
 
   return (
     <div className="test">
@@ -73,7 +70,9 @@ function AnswerSheet() {
         <div className="testinner">
           <div className="navigator">
             <div>
-              <div>Marks: {marks}/{questions[index].marks}</div>
+              <div>
+                Marks: {marks}/{questions[index].marks}
+              </div>
               {/* <div>Status: Not Submitted</div> */}
             </div>
             <div>

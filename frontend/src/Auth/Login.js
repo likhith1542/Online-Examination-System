@@ -49,7 +49,7 @@ const Login = (props) => {
   return (
     <div className="login">
       <div className="imageholder">
-        <img alt="clglogo" src={clglogo} width="60%" />
+        <img alt="clglogo" src={clglogo} width="250px" height="250px" />
       </div>
       <div className="card">
         <h1>Sign In</h1>

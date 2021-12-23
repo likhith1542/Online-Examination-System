@@ -22,8 +22,6 @@ function Test() {
   const [open, setOpen] = useState(false);
   const handleModal = () => setOpen(!open);
 
-  
-
   useEffect(async () => {
     const data = await fetch("/video/token", {
       method: "POST",
@@ -46,12 +44,12 @@ function Test() {
   useEffect(
     () => {
       axios
-        .get("http://localhost:5000/api/tests/get/" + id)
+        .get("http://192.168.29.67:5000/api/tests/get/" + id)
         .then((res) => {
-
           axios
             .get(
-              "http://localhost:5000/api/tests/test/get/" + res.data[0].examId
+              "http://192.168.29.67:5000/api/tests/test/get/" +
+                res.data[0].examId
             )
             .then((res2) => {
               if (res2.data[0].submittedBy.includes(userid)) {
@@ -71,11 +69,9 @@ function Test() {
                 navi("/");
               }
             })
-            .catch((err) => {
-            });
+            .catch((err) => {});
         })
-        .catch((err) => {
-        });
+        .catch((err) => {});
     },
     // eslint-disable-next-line
     [id]
@@ -84,23 +80,21 @@ function Test() {
   const submitExam = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:5000/api/tests/submit/" + id + "/" + userid)
+      .post("http://192.168.29.67:5000/api/tests/submit/" + id + "/" + userid)
       .then((res) => {
         navi("/");
       })
-      .catch((err) => {
-      });
+      .catch((err) => {});
   };
 
   return (
     <div className="test">
-      <div style={{ display: open ? "block" : "none",marginTop:'25px' }}>
+      <div style={{ display: open ? "block" : "none", marginTop: "25px" }}>
         <Room roomName={id} token={token} handleLogout={handleLogout} />
       </div>
       <div>
         <button
-
-        className="cambutton"
+          className="cambutton"
           onClick={(e) => {
             handleModal(e);
           }}

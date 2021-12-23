@@ -20,12 +20,11 @@ function Tests() {
     () => {
       async function getTests() {
         await axios
-          .get("http://localhost:5000/api/tests/get")
+          .get("http://192.168.29.67:5000/api/tests/get")
           .then((res) => {
             setTests(res.data);
           })
-          .catch((err) => {
-          });
+          .catch((err) => {});
       }
       getTests();
     },
@@ -38,7 +37,7 @@ function Tests() {
       tests.map((test, i) => {
         axios
           .get(
-            "http://localhost:5000/api/marks/get/marks/" +
+            "http://192.168.29.67:5000/api/marks/get/marks/" +
               test._id +
               "/" +
               userid
@@ -46,8 +45,7 @@ function Tests() {
           .then((res) => {
             setMarks((marks) => [...marks, res.data.tm]);
           })
-          .catch((err) => {
-          });
+          .catch((err) => {});
       });
     },
     // eslint-disable-next-line
