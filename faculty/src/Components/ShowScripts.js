@@ -241,7 +241,7 @@ function ShowScripts() {
                                 className="marks"
                                 type="text"
                                 value={
-                                  script.Marks[index]["Mark"] && !editing
+                                  script.Marks[index] && script.Marks[index]["Mark"] && !editing
                                     ? script.Marks[index]["Mark"]
                                     : mark
                                 }
